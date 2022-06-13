@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    depends_on:
+      - frontend
+      - backend_server
+      - websocket_server
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '3000:80'
+
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_PASSWORD=codecollabdb
+      
+  backend_server:
+    depends_on:
+      - postgres
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend_server 
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=codecollabdb
+      - PGPORT=5432
+      - GOOGLE_CLIENT_ID=661344400794-kolld4iv5jlnjdkvj7i3968uro16612p.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=3Q300oU31arYtcrsfhkv01Iy
+      - COOKIE_SECRET=codecollabcookiesecretnotguessable
+      - JDOODLE_API_CLIENT_ID=9d7c5ae44095f68c13cd84ff0c88e379
+      - JDOODLE_API_CLIENT_SECRET=8e2689772bb4e1c98eda5a925e2fb72956bcf53010fe708a980d12e578b04867
+
+  websocket_server:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./websocket_server
+      
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
