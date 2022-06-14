@@ -5,7 +5,7 @@ import axios from 'axios';
 import Select from "react-dropdown-select";
 import ACTIONS from '../../../../Actions';
 import { cppCode, javaCode, pythonCode } from "../../../../helpers/baseCode";
-import { languages, JAVA, CPP, PYTHON } from "../../../../helpers/languages";
+import { languages, JAVA, CPP } from "../../../../helpers/languages";
 import 'codemirror';
 import 'codemirror/lib/codemirror.css';
 import './RealTimeEditor.css';
@@ -44,6 +44,7 @@ const RealTimeEditor = ({socketRef, roomId, code, onCodeChange, input, onInputCh
     const [cppCodeState, setCppCodeState] = useState(cppCode);
     const [pythonCodeState, setPythonCodeState] = useState(pythonCode);
     const [javaCodeState, setJavaCodeState] = useState(javaCode);
+    const [selectedLanguage, setSelectedLanguage] = useState([languages.find(language => language.label === CPP.label)]);
 
     
     const themes = [
@@ -109,6 +110,7 @@ const RealTimeEditor = ({socketRef, roomId, code, onCodeChange, input, onInputCh
                 console.log(mode);
                 if (mode !== null) {
                     setOptions({...options, mode});
+                    setSelectedLanguage([languages.find(language => language.value === mode)]);
                 }
             });
         }
@@ -138,26 +140,28 @@ const RealTimeEditor = ({socketRef, roomId, code, onCodeChange, input, onInputCh
                                 options={languages} 
                                 onChange={(values) => {
                                     const mode = values[0].value;
-                                    const label = values[0].label;
+                                    const label = values[0].label; 
+                                    let codeToChange;
                                     setOptions({...options, mode});
                                     if(label === CPP.label) {
-                                        onCodeChange(cppCodeState);
+                                        codeToChange = cppCodeState;
                                     } else if(label === JAVA.label) {
-                                        onCodeChange(javaCodeState);
+                                        codeToChange = javaCodeState;
                                     } else {
-                                        onCodeChange(pythonCodeState);
+                                        codeToChange = pythonCodeState;
                                     }
+                                    onCodeChange(codeToChange);
                                     socketRef.current.emit(ACTIONS.LANGUAGE_CHANGE, {
                                         roomId,
                                         mode,
                                     });
                                     socketRef.current.emit(ACTIONS.CODE_CHANGE, {
                                         roomId,
-                                        code,
+                                        code: codeToChange,
                                     });
                                 }} 
                                 multi={false}
-                                values={[languages.find(language => language.label === 'C++')]}
+                                values={selectedLanguage}
                                 className='selectDropdown'
                                 closeOnSelect={true}
                                 closeOnScroll={true}

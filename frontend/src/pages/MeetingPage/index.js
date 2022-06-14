@@ -2,25 +2,27 @@ import React, { useState, useRef, useEffect, useContext } from 'react';
 import toast from 'react-hot-toast';
 import ACTIONS from '../../Actions';
 import Client from '../../components/Client';
-import { initSocket } from '../../socket';
+import { initSocket } from '../../helpers/socket';
 import {
     useLocation,
     useNavigate,
     useParams,
+    Navigate
 } from 'react-router-dom';
 import SplitPane from 'react-split-pane';
 import './MeetingPage.css'
 import UserContext from '../../context/UserContext';
 import RealTimeEditor from './components/RealTimeEditor';
+import { cppCode } from '../../helpers/baseCode';
 
 const MeetingPage = () => {
     const socketRef = useRef(null);
-    const [code, setCode] = useState('');
+    const [code, setCode] = useState(cppCode);
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     const location = useLocation();
     const {user} = useContext(UserContext);
-    const { roomId } = useParams();
+    const { meetingId } = useParams();
     const reactNavigator = useNavigate();
     const [clients, setClients] = useState([]);
 
@@ -37,7 +39,7 @@ const MeetingPage = () => {
             }
 
             socketRef.current.emit(ACTIONS.JOIN, {
-                roomId,
+                meetingId,
                 username: user.name,
             });
 
@@ -46,7 +48,7 @@ const MeetingPage = () => {
                 ACTIONS.JOINED,
                 ({ clients, username, socketId }) => {
                     if (username !== user.name) {
-                        toast.success(`${username} joined the room.`);
+                        toast.success(`${username} joined the meeting.`);
                         console.log(`${username} joined`);
                     }
                     setClients(clients);
@@ -61,7 +63,7 @@ const MeetingPage = () => {
             socketRef.current.on(
                 ACTIONS.DISCONNECTED,
                 ({ socketId, username }) => {
-                    toast.success(`${username} left the room.`);
+                    toast.success(`${username} left the meeting.`);
                     setClients((prev) => {
                         return prev.filter(
                             (client) => client.socketId !== socketId
@@ -76,25 +78,25 @@ const MeetingPage = () => {
             socketRef.current.off(ACTIONS.JOINED);
             socketRef.current.off(ACTIONS.DISCONNECTED);
         };
-    }, [reactNavigator, roomId, user]);
+    }, [reactNavigator, meetingId, user]);
 
-    async function copyRoomId() {
+    async function copyMeetingId() {
         try {
-            await navigator.clipboard.writeText(roomId);
-            toast.success('Room ID has been copied to your clipboard');
+            await navigator.clipboard.writeText(meetingId);
+            toast.success('Meeting ID has been copied to your clipboard');
         } catch (err) {
-            toast.error('Could not copy the Room ID');
+            toast.error('Could not copy the Meeting ID');
             console.error(err);
         }
     }
 
-    function leaveRoom() {
+    function leaveMeeting() {
         reactNavigator('/');
     }
 
-    // if (!location.state || !user.name) {
-    //     return <Navigate to="/" />;
-    // }
+    if (!location.state || !user.name) {
+        return <Navigate to="/" />;
+    }
 
     return (
             <SplitPane 
@@ -116,16 +118,16 @@ const MeetingPage = () => {
                             ))}
                         </div>
                     </div>
-                    <button className="btn loginBtn" onClick={copyRoomId}>
-                        Copy ROOM ID
+                    <button className="btn loginBtn" onClick={copyMeetingId}>
+                        Copy MEETING ID
                     </button>
-                    <button className="btn leaveBtn" onClick={leaveRoom}>
+                    <button className="btn leaveBtn" onClick={leaveMeeting}>
                         Leave
                     </button>
                 </div>
                 <RealTimeEditor 
                     socketRef={socketRef}
-                    roomId={roomId}
+                    meetingId={meetingId}
                     onCodeChange={(code) => {
                         setCode(code);
                     }}

@@ -59,7 +59,7 @@ function App() {
                         <Route path="/" element={renderRootRoute()}></Route>
                         <Route path="/login" element={<LoginPage />}></Route>
                         <Route
-                            path="/editor/:roomId"
+                            path="/editor/:meetingId"
                             element={<MeetingPage />}
                         ></Route>
                     </Routes>

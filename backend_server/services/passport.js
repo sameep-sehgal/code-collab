@@ -14,7 +14,7 @@ passport.deserializeUser((user, done) => {
 passport.use(new GoogleStrategy({
     clientID:keys.googleClientID,
     clientSecret:keys.googleClientSecret,
-    callbackURL:'http://localhost:3000/api/auth/google/callback' // Route user will be sent back to after authentication.
+    callbackURL: keys.oauthCallbackURL // Route user will be sent back to after authentication.
 },async (accessToken,refreshToken,profile,done) =>{ // This callback function runs when user is redirected to call back URL after authentication
     console.log(accessToken,'accessToken');
     console.log(profile,'profile');

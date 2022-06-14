@@ -9,4 +9,5 @@ module.exports = {
     cookieSecret: process.env.COOKIE_SECRET,
     jdoodleApiClientId: process.env.JDOODLE_API_CLIENT_ID,
     jdoodleApiClientSecret: process.env.JDOODLE_API_CLIENT_SECRET,
+    oauthCallbackURL: process.env.OAUTH_CALLBACK_URL
 }

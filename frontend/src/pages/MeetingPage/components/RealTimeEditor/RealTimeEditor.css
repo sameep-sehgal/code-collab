@@ -17,6 +17,7 @@
 .selectDropdown {
     width: fit-content;
     color: #32CD32;
+    z-index: 3;
 }
 
 .editorWrap {

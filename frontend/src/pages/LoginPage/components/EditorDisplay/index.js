@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { cppCode } from '../../../../helpers/baseCode';
 import CodeMirrorEditor from '../CodeMirrorEditor/CodeMirrorEditor';
 import EditorConnection from '../EditorConnection/EditorConnection';
 import './EditorDisplay.css'
 
 const EditorDisplay = () => {
 
-    const [code, setCode] = useState('console.log("This is the best Code Collaboration website")\n//Type Code Here\n');
+    const [code, setCode] = useState(cppCode);
 
     return (
         <div className='editorDisplay'>

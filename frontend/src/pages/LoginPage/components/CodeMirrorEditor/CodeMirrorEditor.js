@@ -1,10 +1,11 @@
 import React from "react";
 import {Controlled as CodeMirror} from 'react-codemirror2';
+import { CPP } from "../../../../helpers/languages";
 
 const CodeMirrorEditor = ({onCodeChange, code}) => {
 
     var defaultOptions =  {
-        mode: { name: 'javascript', json: true },
+        mode: CPP.value,
         theme: 'dracula',
         autoCloseTags: true,
         autoCloseBrackets: true,
