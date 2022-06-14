@@ -1,5 +1,5 @@
 exports.cppCode = '#include <iostream>\n'
-+'#include <std/bitsc++.h>\n'
++'#include <bits/stdc++.h>\n'
 +'\nint main() {\n'
 +'\t//Your Code Here\n'
 +'\treturn 0;\n'

@@ -82,7 +82,13 @@ const MeetingPage = () => {
 
     async function copyMeetingId() {
         try {
-            await navigator.clipboard.writeText(meetingId);
+            // await navigator.clipboard.writeText(meetingId);
+            var textField = document.createElement('textarea');
+            textField.innerText = `${meetingId}`;
+            document.body.appendChild(textField);
+            textField.select();
+            document.execCommand('copy');
+            textField.remove();
             toast.success('Meeting ID has been copied to your clipboard');
         } catch (err) {
             toast.error('Could not copy the Meeting ID');
@@ -94,9 +100,9 @@ const MeetingPage = () => {
         reactNavigator('/');
     }
 
-    if (!location.state || !user.name) {
-        return <Navigate to="/" />;
-    }
+    // if (!location.state || !user.name) {
+    //     return <Navigate to="/" />;
+    // }
 
     return (
             <SplitPane 

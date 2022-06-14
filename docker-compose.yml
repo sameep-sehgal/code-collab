@@ -34,7 +34,7 @@ services:
       - COOKIE_SECRET=codecollabcookiesecretnotguessable
       - JDOODLE_API_CLIENT_ID=9d7c5ae44095f68c13cd84ff0c88e379
       - JDOODLE_API_CLIENT_SECRET=8e2689772bb4e1c98eda5a925e2fb72956bcf53010fe708a980d12e578b04867
-      - OAUTH_CALLBACK_URL=https://ec2-13-232-32-212.ap-south-1.compute.amazonaws.com/api/auth/google/callback
+      - OAUTH_CALLBACK_URL=http://ec2-13-232-32-212.ap-south-1.compute.amazonaws.com/api/auth/google/callback
 
   websocket_server:
     build:
