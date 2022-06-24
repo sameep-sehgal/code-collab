@@ -29,12 +29,12 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=codecollabdb
       - PGPORT=5432
-      - GOOGLE_CLIENT_ID=661344400794-kolld4iv5jlnjdkvj7i3968uro16612p.apps.googleusercontent.com
-      - GOOGLE_CLIENT_SECRET=3Q300oU31arYtcrsfhkv01Iy
-      - COOKIE_SECRET=codecollabcookiesecretnotguessable
-      - JDOODLE_API_CLIENT_ID=9d7c5ae44095f68c13cd84ff0c88e379
-      - JDOODLE_API_CLIENT_SECRET=8e2689772bb4e1c98eda5a925e2fb72956bcf53010fe708a980d12e578b04867
-      - OAUTH_CALLBACK_URL=http://ec2-13-232-32-212.ap-south-1.compute.amazonaws.com/api/auth/google/callback
+      - GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET
+      - COOKIE_SECRET
+      - JDOODLE_API_CLIENT_ID
+      - JDOODLE_API_CLIENT_SECRET
+      - OAUTH_CALLBACK_URL
 
   websocket_server:
     build:
