@@ -100,9 +100,9 @@ const MeetingPage = () => {
         reactNavigator('/');
     }
 
-    // if (!location.state || !user.name) {
-    //     return <Navigate to="/" />;
-    // }
+    if (!location.state || !user.name) {
+        return <Navigate to="/" />;
+    }
 
     return (
             <SplitPane 
